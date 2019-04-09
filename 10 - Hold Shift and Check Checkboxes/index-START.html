@@ -96,6 +96,35 @@
   </div>
 
 <script>
+
+  // let (not const) because reassigned constantly
+  let lastChecked; 
+
+  function handleCheck(e) {
+    // flag variable
+    let inBetween = false;
+    // check for shift key down
+    // AND check they they are checking it
+    if (e.shiftKey && this.checked) {
+      // loop over every single checkbox
+      checkboxes.forEach(checkbox => {
+        // inverts checkbox when it reaches start and end
+        if (checkbox === this || checkbox === lastChecked) {
+          inBetween = !inBetween;
+          console.log('start inbetween')
+        }
+        // uses js to check the boxes
+        if (inBetween) {
+          checkbox.checked = true;
+        }
+      });
+    }
+    lastChecked = this;
+  }
+
+  const checkboxes = document.querySelectorAll('.inbox input[type="checkbox"]');
+  checkboxes.forEach(checkbox => checkbox.addEventListener('click', handleCheck));
+
 </script>
 </body>
 </html>
