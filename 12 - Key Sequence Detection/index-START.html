@@ -7,6 +7,23 @@
 </head>
 <body>
 <script>
+  const pressed = [];
+  const secretCode = 'dippy';
+
+  window.addEventListener('keyup', (e) => {
+    console.log(e.key);
+    pressed.push(e.key);
+    // splice modifies the original array
+    // first int is starting index (negative to go from end of array)
+    // second int is number of elements to remove (return)
+    pressed.splice(-secretCode.length - 1, pressed.length - secretCode.length);
+    if (pressed.join('').includes(secretCode)) {
+      console.log('DING DING!');
+      cornify_add();
+    }
+    console.log(pressed);
+  });
+
 </script>
 </body>
 </html>
