@@ -43,6 +43,8 @@
   </div>
 
   <script>
+    // given debounce function
+    // adds wait between calls to a function
     function debounce(func, wait = 20, immediate = true) {
       var timeout;
       return function() {
@@ -57,6 +59,33 @@
         if (callNow) func.apply(context, args);
       };
     }
+    
+    // get all images with class of slide-in
+    const sliderImages = document.querySelectorAll('.slide-in');
+
+    function checkSlide(e) {
+      sliderImages.forEach(sliderImage => {
+        // half way through image
+        // window.scrollY is pixel level for top of window
+        const slideInAt = (window.scrollY + window.innerHeight) - sliderImage.height / 2;
+        // bottom of the image
+        // sliderImage.offsetTop is pixel level of how far down to top image
+        const imageBottom = sliderImage.offsetTop + sliderImage.height;
+
+        // descriptive variable names to help understanding
+        const isHalfShown = slideInAt > sliderImage.offsetTop;
+        const isNotScrolledPast = window.scrollY < imageBottom;
+        if (isHalfShown && isNotScrolledPast) {
+          sliderImage.classList.add('active');
+        } else {
+          sliderImage.classList.remove('active');
+        }
+        // use classList .add/.remove to for class manipulation
+      });
+    }
+
+    // listen for window scroll (debounced)
+    window.addEventListener('scroll', debounce(checkSlide));
 
   </script>
 
@@ -116,7 +145,6 @@
       opacity: 1;
       transform: translateX(0%) scale(1);
     }
-
   </style>
 
 </body>
